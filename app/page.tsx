@@ -1,83 +1,83 @@
-import Image from 'next/image';
+'use client';
+
+import { AlertCircle } from 'lucide-react';
+
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
-  return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm/6 sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{' '}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-[family-name:var(--font-geist-mono)] font-semibold dark:bg-white/[.06]">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-        </ol>
+  // TODO: Get the `extension` state and `connect`, `disconnect` wallet functions from `useWallet` hook
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  // TODO: Add state variables for:
+  // - `availableExtensions` (string[])
+  // - `accounts` (InjectedPolkadotAccount[])
+  // - `error` (string | null)
+
+  // TODO: Add `useEffect` to get available wallet extensions when component mounts
+  // Hint: Use `getWalletExtensions()` from `lib/wallet`
+
+  // TODO: Add `useEffect` to subscribe to account changes when wallet is connected
+  // Hint: Use the `subscribe` method from the `InjectedExtension` interface
+
+  return (
+    <div className="container mx-auto max-w-2xl p-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Wallet Connection</CardTitle>
+          <CardDescription>Connect your wallet to interact with the application</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* TODO: Add conditional rendering to show error message if error exists */}
+          {false && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {/* TODO: Display the error message here */}
+                Error message
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* TODO: Add conditional rendering to show different UI based on whether a wallet is connected */}
+          {false ? (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium">Connected Wallet</h3>
+                  <p className="text-muted-foreground text-sm">
+                    {/* TODO: Display the connected wallet name */}
+                    Wallet Name
+                  </p>
+                </div>
+                {/* TODO: Call the `disconnect` function when clicked */}
+                <Button variant="destructive" onClick={() => {}}>
+                  Disconnect
+                </Button>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="font-medium">Connected Accounts</h3>
+                <div className="space-y-2">
+                  {/* TODO: Map through the `accounts` array to display each account address */}
+                  <div className="bg-muted rounded-md p-2">Account address will appear here</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <h3 className="font-medium">Available Wallets</h3>
+              <div className="grid gap-2">
+                {/* TODOs:
+                - Map through `availableExtensions` to create connect buttons for each wallet
+                - Call the `connect` function when a wallet button is clicked
+                - Handle any errors during the connection process */}
+                <Button onClick={() => {}}>Connect Wallet</Button>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
