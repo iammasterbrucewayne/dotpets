@@ -1,24 +1,44 @@
 'use client';
 
 import { AlertCircle } from 'lucide-react';
+import { InjectedPolkadotAccount } from 'polkadot-api/pjs-signer';
+
+import { useEffect, useState } from 'react';
 
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
+import { getWalletExtensions } from '@/lib/wallet';
+
+import { useWallet } from '@/providers/WalletProvider';
+
 export default function Home() {
-  // TODO: Get the `extension` state and `connect`, `disconnect` wallet functions from `useWallet` hook
+  // Utility functions to connect, disconnect, and get the state of the wallet
+  const { extension, connect, disconnect } = useWallet();
 
-  // TODO: Add state variables for:
-  // - `availableExtensions` (string[])
-  // - `accounts` (InjectedPolkadotAccount[])
-  // - `error` (string | null)
+  // List of wallet extensions installed in the user's browser
+  const [availableExtensions, setAvailableExtensions] = useState<string[]>([]);
+  // List of accounts authorized to connect to the application by the wallet
+  const [accounts, setAccounts] = useState<InjectedPolkadotAccount[]>([]);
+  // Error message to display to the user
+  const [error, setError] = useState<string | null>(null);
 
-  // TODO: Add `useEffect` to get available wallet extensions when component mounts
-  // Hint: Use `getWalletExtensions()` from `lib/wallet`
+  // Get the list of wallet extensions installed in the user's browser
+  useEffect(() => {
+    const extensions = getWalletExtensions();
+    setAvailableExtensions(extensions);
+  }, []);
 
-  // TODO: Add `useEffect` to subscribe to account changes when wallet is connected
-  // Hint: Use the `subscribe` method from the `InjectedExtension` interface
+  // Subscribe to account changes when wallet is connected
+  useEffect(() => {
+    if (extension) {
+      const unsubscribe = extension.subscribe((accounts) => {
+        setAccounts(accounts);
+      });
+      return () => unsubscribe();
+    }
+  }, [extension]);
 
   return (
     <div className="container mx-auto max-w-2xl p-4">
@@ -28,30 +48,21 @@ export default function Home() {
           <CardDescription>Connect your wallet to interact with the application</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* TODO: Add conditional rendering to show error message if error exists */}
-          {false && (
+          {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {/* TODO: Display the error message here */}
-                Error message
-              </AlertDescription>
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
-          {/* TODO: Add conditional rendering to show different UI based on whether a wallet is connected */}
-          {false ? (
+          {extension ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium">Connected Wallet</h3>
-                  <p className="text-muted-foreground text-sm">
-                    {/* TODO: Display the connected wallet name */}
-                    Wallet Name
-                  </p>
+                  <p className="text-muted-foreground text-sm">{extension.name}</p>
                 </div>
-                {/* TODO: Call the `disconnect` function when clicked */}
-                <Button variant="destructive" onClick={() => {}}>
+                <Button variant="destructive" onClick={() => disconnect()}>
                   Disconnect
                 </Button>
               </div>
@@ -59,8 +70,11 @@ export default function Home() {
               <div className="space-y-2">
                 <h3 className="font-medium">Connected Accounts</h3>
                 <div className="space-y-2">
-                  {/* TODO: Map through the `accounts` array to display each account address */}
-                  <div className="bg-muted rounded-md p-2">Account address will appear here</div>
+                  {accounts.map((account) => (
+                    <div className="bg-muted rounded-md p-2" key={account.address}>
+                      {account.address}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -68,11 +82,18 @@ export default function Home() {
             <div className="space-y-4">
               <h3 className="font-medium">Available Wallets</h3>
               <div className="grid gap-2">
-                {/* TODOs:
-                - Map through `availableExtensions` to create connect buttons for each wallet
-                - Call the `connect` function when a wallet button is clicked
-                - Handle any errors during the connection process */}
-                <Button onClick={() => {}}>Connect Wallet</Button>
+                {availableExtensions.map((extension) => (
+                  <Button
+                    key={extension}
+                    onClick={() =>
+                      connect(extension)
+                        .then(() => setError(null))
+                        .catch((error) => setError(error.message))
+                    }
+                  >
+                    Connect {extension}
+                  </Button>
+                ))}
               </div>
             </div>
           )}
