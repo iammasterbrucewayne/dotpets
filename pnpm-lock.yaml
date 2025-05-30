@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@polkadot-api/descriptors':
+        specifier: file:.papi/descriptors
+        version: file:.papi/descriptors(polkadot-api@1.12.2(jiti@2.4.2)(postcss@8.5.4)(rxjs@7.8.2))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -567,6 +570,11 @@ packages:
 
   '@polkadot-api/codegen@0.16.1':
     resolution: {integrity: sha512-3TGcaAZ8dqzBynCWN9BUAWrbFkaMyTK6VM088tGQBgIJltlgh+qgSai7E6ivvCJ4nnZp+MS+I3yFx7+vtisXdw==}
+
+  '@polkadot-api/descriptors@file:.papi/descriptors':
+    resolution: {directory: .papi/descriptors, type: directory}
+    peerDependencies:
+      polkadot-api: '>=1.11.2'
 
   '@polkadot-api/ink-contracts@0.3.3':
     resolution: {integrity: sha512-GdDzr/iAQ+h60IzwWJWsVHR/ovVubutNEDVwnH2s8A4kmee5yytn+XlABr3i2RlFuB8FwWOWQwuG2+6Hi2NnFQ==}
@@ -3201,6 +3209,10 @@ snapshots:
       '@polkadot-api/metadata-compatibility': 0.2.3
       '@polkadot-api/substrate-bindings': 0.13.0
       '@polkadot-api/utils': 0.1.2
+
+  '@polkadot-api/descriptors@file:.papi/descriptors(polkadot-api@1.12.2(jiti@2.4.2)(postcss@8.5.4)(rxjs@7.8.2))':
+    dependencies:
+      polkadot-api: 1.12.2(jiti@2.4.2)(postcss@8.5.4)(rxjs@7.8.2)
 
   '@polkadot-api/ink-contracts@0.3.3':
     dependencies:
